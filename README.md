@@ -14,4 +14,7 @@ Projeto em NextJS
 > TODO:
 > - Responsividade em todas as páginas (tirando /api)
 > - LOGS com a <b>AbbyDB</b>
-> - [Dê uma sugestão!]()
+
+<hr />
+
+[![Dê uma sugestão!](https://img.shields.io/badge/-D%C3%AA%20uma%20sugest%C3%A3o!-orange?style=for-the-badge)](https://github.com/MKIsHereOficial/NextAbby/issues/new?assignees=&labels=suggestion&template=sugest-o.md&title=Sugest%C3%A3o%21)
