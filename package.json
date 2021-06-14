@@ -1,0 +1,22 @@
+{
+  "name": "abbycastle",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/MKIsHereOficial/NextAbby.git",
+  "author": "MKIsHereOficial <mkishere.oficial@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "next": "^10.2.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.11",
+    "typescript": "^4.3.2"
+  }
+}
