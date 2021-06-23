@@ -13,6 +13,7 @@ interface CarouselProps {
     vertical?: boolean;
     centered?: boolean;
     spacing?: number;
+    slidesPerView?: number;
 }
 
 const ReactCarousel: React.FC<CarouselProps> = (props) => {
@@ -22,7 +23,7 @@ const ReactCarousel: React.FC<CarouselProps> = (props) => {
         loop: typeof props.loop !== 'undefined' ? props.loop : false,
         spacing: typeof props.spacing !== 'undefined' ? props.spacing : 0,
         vertical: typeof props.vertical !== 'undefined' ? props.vertical : false,
-        autoAdjustSlidesPerView: true,
+        slidesPerView: typeof props.slidesPerView !== 'undefined' ? props.slidesPerView : 2,
     });
 
 
