@@ -1,0 +1,34 @@
+@import 'colors';
+
+@mixin sideBar($border-thickness, $border-color, $pos: 'left') {
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    width: $border-thickness;
+
+    background: $border-color;
+
+    transition: 400ms ease;
+    left: 0;
+}
+
+@mixin progressBar($primary: $colors-PRIMARY, $secondary: $colors-SECONDARY, $border-radius: 15vw) {
+    width: 15rem;
+    height: .75rem;
+
+    appearance: none;
+
+    &::-webkit-progress-bar {
+        background-color: $primary;
+        border-radius: $border-radius;
+    }
+
+    &::-webkit-progress-value {
+        background-color: $secondary;
+        border-radius: $border-radius;
+    }
+}
