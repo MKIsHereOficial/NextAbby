@@ -1,0 +1,193 @@
+@use "sass:color";
+
+@import 'colors';
+@import 'components';
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+.peri_attrs_container {
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(3, 100vw);
+
+    overflow: hidden;
+    
+    transition: 400ms ease;
+}
+
+.periattr_container {
+    // VARIABLES: START
+    
+    $border-color: transparent;
+    $border-thickness: .25rem;
+
+    // VARIABLES: END
+
+    flex: 1;
+
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    background: $colors-PRIMARY;
+
+    padding: .75rem;
+
+    border: 0px solid;
+
+    //border-right-width: $border-thickness;
+    
+    &:before {
+        $border-color: rgba(255, 255, 255, 0.7);
+        @include cc_sideBar($border-thickness, $border-color);
+    }
+
+
+    border-color: $border-color;    
+
+}
+
+// Sanidade & HP
+
+.sanity_hp_container {
+    $font-size: 1.25rem;
+
+    color: $colors-WHITE;
+    font-size: $font-size;
+    display: grid;
+    place-items: center;
+
+    flex: 1;
+    position: relative;    
+
+    & > div {
+        transition: 400ms ease;
+        &[class="__hp"] {
+            @include cc_sanity_and_hp_container($PRIMARY: $colors-HP, $SECONDARY: color.change($colors-HP, $lightness: 25%));
+        }
+        &[class="__sanity"]{
+            @include cc_sanity_and_hp_container($PRIMARY: $colors-SANITY, $SECONDARY: color.change($colors-SANITY, $lightness: 25%));
+        }
+
+        &[class="__d_c_exp"] {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            & > div {
+                width: 4rem;
+
+                margin: 0 .65rem;
+
+                h2 {
+                    font-family: 'Quicksand', sans-serif;
+                    font-size: .65rem;
+                    font-weight: 200;
+
+                    text-align: center;
+                }
+
+                input {
+                    color: $colors-WHITE;
+                    font-size: 1rem;
+
+                    text-align: center;
+
+                    width: 100%;
+
+                    background: transparent;
+
+                    border: none;
+                    border-bottom: 1px solid gray;
+                    outline: none;
+                }
+            }
+        }
+    }
+
+    & > button {
+        $buttonTranslation: translate(0, 0);
+        transition: width 400ms ease, 
+        height 400ms ease, 
+        font-size 400ms ease, 
+        background 400ms ease,
+        color 400ms ease;
+
+        position: absolute;
+        bottom: .75rem;
+        right: .75rem;
+        transform: $buttonTranslation;
+
+        padding: 2.5vh 5vw;
+        font-size: 1.25rem;
+
+        border-radius: 2.5vh;
+        border: .15rem solid $colors-SECONDARY;
+
+        background: $colors-PRIMARY;
+        color: $colors-WHITE;
+
+        &:after {
+            transition: 400ms ease;
+            content: 'Salvando..';
+            position: absolute;
+
+            color: color.scale($colors-WHITE, $lightness: -35%);
+            font-size: calc(#{$font-size} + .75rem);
+
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, 250%);
+
+            padding: calc(2.5vh * 2) calc(5vw * 2);
+
+            border-radius: calc(2.5vh * 8);
+            border: .15rem solid $colors-SECONDARY;
+            background: color.scale($colors-PRIMARY, $lightness: -35%);
+        }
+
+        &:hover {
+            background: color.change($colors-PRIMARY, $lightness: 35%);
+            color: color.scale($colors-WHITE, $lightness: -35%);
+            font-size: calc(#{$font-size} + 1rem);
+        }
+
+        &:focus {
+            font-size: 0;
+            width: 0;
+            height: 0;
+
+
+            background: transparent;
+            color: transparent;
+            border: none;
+
+
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            &::after {
+                transition: 200ms ease;
+                content: 'Salvando..';
+                position: absolute;
+
+                color: color.scale($colors-WHITE, $lightness: -35%);
+                font-size: calc(#{$font-size} + .75rem);
+
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -250%);
+
+                padding: calc(2.5vh * 2) calc(5vw * 2);
+
+                border-radius: calc(2.5vh * 8);
+                border: .15rem solid $colors-SECONDARY;
+                background: color.scale($colors-PRIMARY, $lightness: -35%);
+            }
+        }
+    }
+}
