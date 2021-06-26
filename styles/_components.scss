@@ -18,7 +18,7 @@
 
 @mixin progressBar($primary: $colors-PRIMARY, $secondary: $colors-SECONDARY, $border-radius: 15vw) {
     width: 15rem;
-    height: .75rem;
+    height: calc(.75rem * 1);
 
     appearance: none;
 
@@ -30,5 +30,56 @@
     &::-webkit-progress-value {
         background-color: $secondary;
         border-radius: $border-radius;
+    }
+}
+
+@mixin sanity_and_hp_container($PRIMARY: $colors-PRIMARY, $SECONDARY: $colors-SECONDARY, $font-size: 1.25rem) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    & * {
+        transition: 250ms ease;
+    }
+
+    & > div {
+        display: grid;
+        place-items: center;
+
+        grid-template-columns: repeat(2, auto);
+        column-gap: .75rem;
+        
+        &:hover :is(span:last-child, input, i){
+            color: $PRIMARY;
+        }
+
+        // Input value and max value container
+        & > div {
+            input[type="number"] {
+                font-size: $font-size;
+                width: calc(#{$font-size} + 1rem);
+
+                border: none;
+                
+                background: transparent;
+                color: $colors-WHITE;
+
+                position: relative;
+
+                outline: none;
+            }
+
+            & > i {
+                font-size: calc(#{$font-size} * 1.32);
+
+                margin-right: .75rem;
+            }
+        }
+
+    }
+    
+    & progress {
+        @include progressBar($SECONDARY, $PRIMARY);
     }
 }
