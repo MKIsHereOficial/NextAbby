@@ -18,7 +18,7 @@ interface CarouselProps {
 
 const ReactCarousel: React.FC<CarouselProps> = (props) => {
     const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
-        mode: typeof props.mode !== 'undefined' ? props.mode : "snap",
+        mode: typeof props.mode !== 'undefined' ? props.mode : "free-snap",
         centered: typeof props.centered !== 'undefined' ? props.centered : true,
         loop: typeof props.loop !== 'undefined' ? props.loop : false,
         spacing: typeof props.spacing !== 'undefined' ? props.spacing : 0,
