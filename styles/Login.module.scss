@@ -1,5 +1,12 @@
+@import 'colors';
+
 .login_btn {
     padding: 2vh 2vw;
+
+    color: $colors-SECONDARY;
+
+    border: .75vh solid $colors-PRIMARY; 
+    border-color: $colors-PRIMARY transparent transparent transparent;
 
     background: transparent;
     backdrop-filter: blur(10px);
