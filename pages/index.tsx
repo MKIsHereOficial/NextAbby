@@ -2,12 +2,11 @@
 import React from 'react';
 
 import Head from 'next/head';
-import LoginButton from '../components/LoginButton';
 
 import styled from 'styled-components';
 
 import textVars from '../textVars.config';
-import styles from '../styles/Login.module.css';
+import styles from '../styles/Login.module.scss';
 
 import { useSession } from 'next-auth/client'
 
@@ -40,7 +39,10 @@ const HomePage: React.FC = () => {
 
                 <p className={styles.paragraph}>{textVars.LOGIN_ADVICE}</p>
 
-                <LoginButton />
+                
+                <a href="/api/auth/signin">
+                    <button className={styles.login_btn}>Logue-me</button>
+                </a>
             </main>
         </div>
     )
