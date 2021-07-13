@@ -3,26 +3,40 @@ import React from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 
 import Head from 'next/head';
-
-import styled from 'styled-components';
-
 import styles from '../../styles/Dashboard.module.scss';
+
 import ReactCarousel from '../../components/ReactCarousel';
+import Attr from '../../components/Attr';
+
+import defaultAttrs from '../../config/attrs.config';
+
+import Database from '../../utils/Database';
 
 export const getStaticPaths: GetStaticPaths = async () => {    
+    const paths = [
+        '/852948164977098753/dashboard'
+    ];
+
+    const db = new Database('chars');
+
+    Array.from((await db.all()).keys()).map(key => {
+        paths.push(`/${key}/dashboard`);
+    });
+
     return {
-        paths: [
-            '/852948164977098753/dashboard'
-        ],
-        fallback: true,
+        paths,
+        fallback: false,
     }
 }
 
 interface DiscordUser {
     id: string;
     username: string;
-    avatar: string;
     discriminator: string;
+    tag?: string;
+    avatarID: string;
+    avatarSize: 1024 | 2048 | 4096;
+    avatarURL?: string;
     toString?: () => string;
     [key: string]: any;
 }
@@ -53,13 +67,34 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
                 username: userObject['username'],
                 tag: `${userObject['username']}#${userObject['discriminator']}`,
                 discriminator: userObject['discriminator'],
-                avatar: userObject['avatar'],
+                avatarID: userObject['avatar'],
+                avatarSize: 4096,
             } : null;
+
+            try {
+                props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.gif?size=${props.user.avatarSize}`;
+            
+                const fetched = await fetch(props.user.avatarURL);
+
+                if (!fetched.ok) throw new Error(fetched.statusText);
+            } catch (err) {
+                props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.png?size=${props.user.avatarSize}`;
+            }
         }
     } catch (err) {
         console.error(err);
     }
-    
+
+    props.attrs = defaultAttrs;
+
+    try {
+        props.attrs = (await (new Database('chars')).get(props.discordId)).value['attrs'];
+    } catch (err) {
+        console.error(err);
+    }
+
+    console.table(props.attrs);
+
     return {
         props
     }
@@ -67,17 +102,18 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
 
 
 const Dashboard: React.FC<Props> = (props) => {
-
-    console.log(props);
-
     return (
         <div>
             <Head>
-                <title>Dashboard{(props.user && props.user['username']) ? ` de ${props.user['username']}` : ""} - AbbyCastle</title>
+                <title>Dashboard{(props.user && props.user['username']) ? `: ${props.user['username']}` : ""} - AbbyCastle</title>
             </Head>
 
+            <div className={styles.avatar_container}>
+                <img src={props.user['avatarURL']} alt={props.user['tag']} />
+            </div>
+
             <main>
-                <ReactCarousel className={styles.peri_attrs_container} slidesPerView={1}>
+                <ReactCarousel className={styles.peri_attrs_container} slidesPerView={1} initial={1} >
                     <div className={styles.sanity_hp_container}>
                         <div className="__hp">
                             <div>
@@ -118,7 +154,7 @@ const Dashboard: React.FC<Props> = (props) => {
                         <button>Salvar</button>
                     </div>
                     <div className={styles.periattr_container}>
-                        <h1>Atributos</h1>
+                        {Array.isArray(props['attrs']) ? props['attrs'].map(({name, value}) => Attr({name, value, key: name, char: {id: props.discordId, attrs: props.attrs}})) : "ERRO AO CARREGAR ATRIBUTOS"}
                     </div>
                     <div className={styles.periattr_container}>
                         <h1>Perícias</h1>
