@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 import styled from 'styled-components';
 
-import textVars from '../textVars.config';
+import textVars from '../config/textVars.config';
 import styles from '../styles/Login.module.scss';
 
 import { useSession } from 'next-auth/client'
