@@ -2,6 +2,7 @@
 
 @import 'colors';
 @import 'components';
+@import 'animations';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,6 +33,7 @@
 
     display: grid;
     place-items: center;
+    grid-template-columns: repeat(3, auto);
 
     background: $colors-PRIMARY;
 
@@ -48,6 +50,37 @@
 
 
     border-color: $border-color;    
+
+    & > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+
+        & > input {
+            background: $colors-SECONDARY;
+            color: $colors-WHITE;
+
+            border: .15rem solid rgba(24, 22, 22, .75);
+            border-radius: 5rem;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, .45);
+
+
+            min-width: 9rem;
+            height: calc(5rem / 2.25);
+
+            font-size: .90rem;
+
+            outline: none;
+            text-align: center;
+
+            transition: 300ms ease;
+
+            &:is(:hover, :focus) {
+                border-width: .5rem;
+            }
+        }
+    }
 
 }
 
@@ -189,5 +222,39 @@
                 background: color.scale($colors-PRIMARY, $lightness: -35%);
             }
         }
+    }
+}
+
+// Container do Avatar
+
+.avatar_container {
+    display: grid;
+    place-items: center;
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    //z-index: 1000;
+
+    padding: 2.5vh 2.5vw;
+
+    & > img {
+        aspect-ratio: 1 / 1;
+        width: 5rem;
+        border-radius: .75rem;
+
+        position: relative;
+
+        transition: 250ms ease;
+
+        border: .15rem solid;
+        color: rgba(24, 22, 22, 0.45);
+
+        user-select: none;
+        -webkit-user-drag: none;
+
+        @include anim_appersWithBlur($infinite: 'false', $duration: 2s, $scale: 95px);
     }
 }

@@ -1,0 +1,16 @@
+@import 'colors';
+
+@mixin appersWithBlur($infinite: "false", $duration: 1.25s, $scale: 10px) {
+    @if $infinite == "true" {
+        animation: appears $duration ease infinite;
+    }
+    @else {
+        animation: appears $duration ease;
+    }
+        
+    @keyframes appears {
+        from {
+            filter: blur($scale);
+        }
+    }
+}
