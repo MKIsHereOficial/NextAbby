@@ -4,7 +4,8 @@
 [![GitHub](https://img.shields.io/github/license/MKIsHereOficial/NextAbby?color=%23206&style=for-the-badge&logo=github)](https://github.com/MKIsHereOficial/NextAbby/blob/main/LICENSE)
 [![GitHub deployments](https://img.shields.io/github/deployments/MKIsHereOficial/NextAbby/production?label=vercel&logo=vercel&style=for-the-badge)](https://abbycastle.vercel.app/)
 
-[![Production Website](https://img.shields.io/website?down_color=%23124&down_message=offline&label=Production&logo=vercel&style=for-the-badge&up_color=%23294&up_message=online&url=https%3A%2F%2Fabbycastle.vercel.app%2F)](https://chaoticdb.vercel.app/)
+[![Production Website](https://img.shields.io/website?down_color=%23124&down_message=offline&label=Production&logo=vercel&style=for-the-badge&up_color=%23294&up_message=online&url=https%3A%2F%2Fabbycastle.vercel.app%2F)](https://abbycastle.vercel.app/)
+[![Preview Website](https://img.shields.io/website?down_color=%23124&down_message=offline&label=Preview&logo=vercel&style=for-the-badge&up_color=%23294&up_message=online&url=https%3A%2F%2Fabbycastle-git-preview-mkishereoficial.vercel.app%2F)](https://abbycastle-git-preview-mkishereoficial.vercel.app/)
 [![Development Website](https://img.shields.io/website?down_color=%23124&down_message=offline&label=Development&logo=replit&style=for-the-badge&up_color=%23294&up_message=online&url=https%3A%2F%2Fnextabby.mkishereoficial.repl.co%2F)](https://nextabby.mkishereoficial.repl.co/)
 
 <hr/>
