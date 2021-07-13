@@ -53,6 +53,6 @@ export default NextAuth({
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens
-    updateAge: 24 * 60 * 60, // 24 hours
+    updateAge: 48 * 60 * 60, // 48 hours
   }
-})
+});
