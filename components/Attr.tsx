@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Char from "../typings/Char";
+import Char from "../types/Char";
 import Database from "../utils/Database";
 
 export interface AttrProps {
