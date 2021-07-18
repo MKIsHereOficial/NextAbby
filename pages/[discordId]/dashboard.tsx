@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths,
-        fallback: false,
+        fallback: true,
     }
 }
 
@@ -161,7 +161,7 @@ const Dashboard: React.FC<Props> = (props) => {
 
 
             <div className={styles.avatar_container}>
-                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props.user['tag']} />
+                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props['user']&&props['user']['tag'] || "none"} />
             </div>
 
             <main style={{display: 'grid', placeItems: 'center', height: '100vh', textAlign: 'center'}}>
@@ -181,7 +181,7 @@ const Dashboard: React.FC<Props> = (props) => {
             </Head>
 
             <div className={styles.avatar_container}>
-                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props.user['tag']} />
+                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props['user']&&props['user']['tag'] || "none"} />
             </div>
 
             <main>
