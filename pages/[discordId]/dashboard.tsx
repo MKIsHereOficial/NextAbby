@@ -61,6 +61,10 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
     let props: Props = {};
     context['params']['discordId'] ? props.discordId = `${context['params']['discordId']}` : null;
 
+    if (!props.discordId) return {
+        props
+    };
+
     let userFetch: Boolean | Response = false;
     let userObject: DiscordUser | Boolean = false;
 
@@ -136,6 +140,19 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
 
 const Dashboard: React.FC<Props> = (props) => {
 
+    if (!props.discordId) return (
+        <div>
+            <Head>
+                <title>ID undefined</title>
+            </Head>
+
+            <main>
+                <h1>ID não encontrado.</h1>
+            </main>
+
+        </div>
+    )
+
     if (!props['char'] || !props['attrs']) return (
         <div>
             <Head>
@@ -144,7 +161,7 @@ const Dashboard: React.FC<Props> = (props) => {
 
 
             <div className={styles.avatar_container}>
-                <img src={props['user']['avatarURL'] || ""} alt={props.user['tag']} />
+                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props.user['tag']} />
             </div>
 
             <main style={{display: 'grid', placeItems: 'center', height: '100vh', textAlign: 'center'}}>
@@ -164,7 +181,7 @@ const Dashboard: React.FC<Props> = (props) => {
             </Head>
 
             <div className={styles.avatar_container}>
-                <img src={props['user']['avatarURL'] || ""} alt={props.user['tag']} />
+                <img src={props['user']&&props['user']['avatarURL'] || ""} alt={props.user['tag']} />
             </div>
 
             <main>
