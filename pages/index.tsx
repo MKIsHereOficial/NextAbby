@@ -16,12 +16,25 @@ const HomePage: React.FC = () => {
     console.dir(loading);
     console.dir(session);
     
-    if (session && session['user'] && session['user']['id']) return <h1>MongoDB</h1>;
+    if (session && session['user'] && session['user']['email']) {
+        return (
+            <div className={styles.body}>
+                <Head>
+                    <title>AbbyCastle</title>
+                    <meta http-equiv="refresh" content={`0;/${session['user']['email']}/dashboard`} />
+                </Head>
+            
+                <main style={{position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
+                    <h1>Carregando...</h1>
+                </main>
+            </div>
+        );
+    }
 
     if (loading) return (
         <div className={styles.body}>
             <Head>
-                <title>Carregando...</title>
+                <title>Carregando - AbbyCastle</title>
             </Head>
         
             <main style={{position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>

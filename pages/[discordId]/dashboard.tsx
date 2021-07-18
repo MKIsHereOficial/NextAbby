@@ -11,6 +11,7 @@ import Attr from '../../components/Attr';
 import defaultAttrs from '../../config/attrs.config';
 
 import Database from '../../utils/Database';
+import HP_SAN_Progress from '../../components/HP_SAN_Progress';
 
 export const getStaticPaths: GetStaticPaths = async () => {    
     const paths = [
@@ -29,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-interface DiscordUser {
+export interface DiscordUser {
     id: string;
     username: string;
     discriminator: string;
@@ -44,6 +45,15 @@ interface DiscordUser {
 interface Props {
     discordId?: string;
     user?: DiscordUser;
+    attrs?: {name: string, value: number}[];
+    char?: {
+        attrs: {name: string, value: number}[];
+        name: string;
+        id: DiscordUser['id'];
+        attrsTotal?: number;
+        avatar?: string;
+        [key: string]: any;
+    };
     [key: string]: any;
 }
 
@@ -72,28 +82,51 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
             } : null;
 
             try {
-                props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.gif?size=${props.user.avatarSize}`;
+                if (props['user']) props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.gif?size=${props.user.avatarSize}`;
             
-                const fetched = await fetch(props.user.avatarURL);
+                if (props && props.user && props.user.avatarURL) {
+                    const fetched = await fetch(props.user.avatarURL);
 
-                if (!fetched.ok) throw new Error(fetched.statusText);
+                    if (!fetched.ok) throw new Error(fetched.statusText);
+                } else {
+                    throw new Error('avatarURL undefined');
+                }
             } catch (err) {
-                props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.png?size=${props.user.avatarSize}`;
+                if (props['user']) props.user.avatarURL = `https://cdn.discordapp.com/avatars/${props.discordId}/${props.user['avatarID']}.png?size=${props.user.avatarSize}`;
             }
         }
     } catch (err) {
         console.error(err);
     }
 
-    props.attrs = defaultAttrs;
+    props.attrs = [];
+
+    defaultAttrs.map(attrName => {
+        props.attrs.push({name: attrName, value: 0});
+    });
 
     try {
-        props.attrs = (await (new Database('chars')).get(props.discordId)).value['attrs'];
+        let char = (await (new Database('chars')).get(props.discordId))['value'];
+
+        if (!char) throw new Error("char invalid");
+
+        props.char = char;
+
+        console.log(props.char);
     } catch (err) {
         console.error(err);
     }
 
-    console.table(props.attrs);
+    try {
+        let attrs = (await (new Database('chars')).get(props.discordId))['value']['attrs'];
+
+        if (!attrs) throw new Error('attrs invalid');
+        props.attrs = props.attrs.map(attr => {
+            return attrs && attrs[0] ? attrs.find(a => a.name === attr.name) : attr;
+        });
+    } catch (err) {
+        console.error(err);
+    }
 
     return {
         props
@@ -102,6 +135,28 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
 
 
 const Dashboard: React.FC<Props> = (props) => {
+
+    if (!props['char'] || !props['attrs']) return (
+        <div>
+            <Head>
+                <title>Dashboard{(props.user && props.user['username']) ? `: ${props.user['username']}` : ""} - AbbyCastle</title>
+            </Head>
+
+
+            <div className={styles.avatar_container}>
+                <img src={props['user']['avatarURL'] || ""} alt={props.user['tag']} />
+            </div>
+
+            <main style={{display: 'grid', placeItems: 'center', height: '100vh', textAlign: 'center'}}>
+                <h1>
+                    <p>{props.user.username}</p>
+                    <p>Não possui um personagem.</p>
+                </h1>
+                <button style={{fontSize: '2em', width: '55vw', height: '15vh', background: 'transparent', borderRadius: '5em', border: '1px solid gray', color: '#fff'}}>Crie um</button>
+            </main>
+        </div>
+    );
+
     return (
         <div>
             <Head>
@@ -109,34 +164,14 @@ const Dashboard: React.FC<Props> = (props) => {
             </Head>
 
             <div className={styles.avatar_container}>
-                <img src={props.user['avatarURL']} alt={props.user['tag']} />
+                <img src={props['user']['avatarURL'] || ""} alt={props.user['tag']} />
             </div>
 
             <main>
                 <ReactCarousel className={styles.peri_attrs_container} slidesPerView={1} initial={1} >
                     <div className={styles.sanity_hp_container}>
-                        <div className="__hp">
-                            <div>
-                                <span>HP</span>
-                                <div>
-                                    <input defaultValue={50} type={"number"} />
-                                    <i>/</i>
-                                    <span>100</span>
-                                </div>
-                            </div>
-                            <progress max={100} value={50}></progress>
-                        </div>
-                        <div className="__sanity">
-                            <div>
-                                <span>Sanidade</span>
-                                <div>
-                                    <input defaultValue={50} type={"number"} />
-                                    <i>/</i>
-                                    <span>100</span>
-                                </div>
-                            </div>
-                            <progress max={100} value={50}></progress>
-                        </div>
+                        <HP_SAN_Progress className="__hp" char={props.char} />
+                        <HP_SAN_Progress className="__sanity" char={props.char} />
                         <div className="__d_c_exp">
                             <div className="__xdamage">
                                 <h2>Dano Extra</h2>
@@ -151,10 +186,9 @@ const Dashboard: React.FC<Props> = (props) => {
                                 <input defaultValue="0" type="number" />
                             </div>
                         </div>
-                        <button>Salvar</button>
                     </div>
                     <div className={styles.periattr_container}>
-                        {Array.isArray(props['attrs']) ? props['attrs'].map(({name, value}) => Attr({name, value, key: name, char: {id: props.discordId, attrs: props.attrs}})) : "ERRO AO CARREGAR ATRIBUTOS"}
+                        {Array.isArray(props['attrs']) && typeof props['attrs'][0] !== 'undefined' ? props['attrs'].map(({name, value}) => Attr({name, value, key: `${name}`.replace("ã", 'a').replace('ê', 'e').replace("ç", 'c'), char: props.char})) : "ERRO AO CARREGAR ATRIBUTOS"}
                     </div>
                     <div className={styles.periattr_container}>
                         <h1>Perícias</h1>

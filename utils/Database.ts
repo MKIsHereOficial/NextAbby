@@ -1,7 +1,10 @@
+import JSONExtended from './ExtendedJSON';
+
 interface Document {
     key: string;
     value: any;
     path?: string;
+    dontExist?: true;
 }
 
 export default class Database {
@@ -40,8 +43,9 @@ export default class Database {
         await fetch(`${this.baseURL}/${key}`).then(async data => {
             const json = await data.json();
 
-            obj = json;
+            if (!json) obj = {key, value: json, dontExist: true};
 
+            obj = json;
         }).catch(console.error);
 
         return obj;
@@ -50,10 +54,22 @@ export default class Database {
     async set(key: Document['key'], value: Document['value']) {
         let obj: Document;
 
-        await fetch(`${this.baseURL}/${key}`, {method: 'POST', body: JSON.stringify(value)}).then(async data => {
-            const json = await data.json();
+        value = JSONExtended.isJSONParsable(value) ? value : JSON.stringify(value);
 
-            obj = json;
+        await fetch(`${this.baseURL}/${key}/set`, {method: 'POST', body: value, mode: 'no-cors'}).then(async data => {
+            try {
+                const json = await data.json();
+
+                obj = json;
+            } catch (err){
+                obj = {
+                    key,
+                    value: JSONExtended.isJSON(value) || value,
+                    path: `${this.baseURL}/${key}`,
+                }
+            }
+
+            //obj = json;
         }).catch(console.error);
 
         return obj;

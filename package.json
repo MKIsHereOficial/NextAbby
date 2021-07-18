@@ -6,16 +6,13 @@
   "author": "MKIsHereOficial <mkishere.oficial@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@next-auth/pouchdb-adapter": "^0.0.1-canary.207",
+    "@next-auth/fauna-adapter": "^0.2.2",
+    "faunadb": "^4.3.0",
     "keen-slider": "^5.5.1",
     "next": "^10.2.3",
     "next-auth": "^3.27.0",
-    "pouchdb": "^7.2.2",
-    "pouchdb-adapter-leveldb": "^7.2.2",
-    "pouchdb-find": "^7.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-multi-carousel": "^2.6.3",
     "styled-components": "^5.3.0",
     "swr": "^0.5.6"
   },
