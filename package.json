@@ -9,7 +9,7 @@
     "@next-auth/pouchdb-adapter": "^0.0.1-canary.207",
     "keen-slider": "^5.5.1",
     "next": "^10.2.3",
-    "next-auth": "^3.27.0",
+    "next-auth": "^3.29.3",
     "pouchdb": "^7.2.2",
     "pouchdb-adapter-leveldb": "^7.2.2",
     "pouchdb-find": "^7.2.2",
